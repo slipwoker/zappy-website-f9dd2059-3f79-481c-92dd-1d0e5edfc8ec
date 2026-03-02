@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://rubik-ai-f9dd2059.zappy5.app/sitemap.xml

@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    <title>תוכנות AI מתקדמות לאוטומציה עסקית — Rubik AI</title>
+    <meta name="description" content="גלו את העוצמה של ai business software שמשנה את הדרך שבה עסקים פועלים. פתרונות אוטומציה חכמים שחוסכים זמן ומגדילים רווחיות. התחילו עכשיו!">
+    <meta name="keywords" content="ai business software, ai business automation, תוכנות בינה מלאכותית, אוטומציה עסקית, פתרונות AI לעסקים">
+    
+    <!-- Zappy Analytics -->
+<script>
+(function() {
+  'use strict';
+  
+  // Configuration
+  var config = {
+    websiteId: 'f9dd2059-3f79-481c-92dd-1d0e5edfc8ec',
+    apiUrl: 'https://api.zappy5.com/api/analytics/track',
+    sessionDuration: 30 * 60 * 1000, // 30 minutes
+    visitorDuration: 30 * 24 * 60 * 60 * 1000, // 30 days
+    trackPageViews: true,
+    trackClicks: true,
+    trackFormSubmissions: true
+  };
+  
+  // Generate or retrieve persistent visitor ID (30 days)
+  function getVisitorId() {
+    var visitorKey = 'zappy_visitor_' + config.websiteId;
+    var visitor = null;
+    
+    try {
+      visitor = localStorage.getItem(visitorKey);
+      if (visitor) {
+        var visitorData = JSON.parse(visitor);
+        var now = Date.now();
+        
+        // Check if visitor ID is still valid (30 days)
+        if (now - visitorData.created < config.visitorDuration) {
+          // Update last seen timestamp
+          visitorData.lastSeen = now;
+          localStorage.setItem(visitorKey, JSON.stringify(visitorData));
+          return visitorData.id;
+        }
+      }
+    } catch (e) {
+      console.warn('Zappy Analytics: LocalStorage not available');
+    }
+    
+    // Generate new visitor ID
+    var newVisitorId = 'zv_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+      localStorage.setItem(visitorKey, JSON.stringify({
+        id: newVisitorId,
+        created: Date.now(),
+        lastSeen: Date.now()
+      }));
+    } catch (e) {
+      // Continue without local storage
+    }
+    
+    return newVisitorId;
+  }
+  
+  // Generate or retrieve session ID (30 minutes)
+  function getSessionId() {
+    var sessionKey = 'zappy_session_' + config.websiteId;
+    var session = null;
+    
+    try {
+      session = sessionStorage.getItem(sessionKey);
+      if (session) {
+        var sessionData = JSON.parse(session);
+        var now = Date.now();
+        
+        // Check if session is still valid
+        if (now - sessionData.timestamp < config.sessionDuration) {
+          // Update timestamp
+          sessionData.timestamp = now;
+          sessionStorage.setItem(sessionKey, JSON.stringify(sessionData));
+          return sessionData.id;
+        }
+      }
+    } catch (e) {
+      console.warn('Zappy Analytics: SessionStorage not available');
+    }
+    
+    // Generate new session ID
+    var newSessionId = 'zs_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+      sessionStorage.setItem(sessionKey, JSON.stringify({
+        id: newSessionId,
+        timestamp: Date.now()
+      }));
+    } catch (e) {
+      // Continue without session storage
+    }
+    
+    return newSessionId;
+  }
+  
+  var visitorId = getVisitorId();
+  var sessionId = getSessionId();
+  
+  // Track an event
+  function trackEvent(eventType, data) {
+    data = data || {};
+    
+    var eventData = {
+      website_id: config.websiteId,
+      event_type: eventType,
+      page_path: window.location.pathname,
+      referrer: document.referrer || 'direct',
+      visitor_id: visitorId,
+      session_id: sessionId,
+      metadata: data
+    };
+    
+    // Use sendBeacon if available (better for page unload events)
+    if (navigator.sendBeacon) {
+      var blob = new Blob([JSON.stringify(eventData)], { type: 'application/json' });
+      navigator.sendBeacon(config.apiUrl, blob);
+    } else {
+      // Fallback to fetch
+      fetch(config.apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(eventData),
+        keepalive: true
+      }).catch(function(error) {
+        console.warn('Zappy Analytics: Failed to track event', error);
+      });
+    }
+  }
+  
+  // Track page view
+  if (config.trackPageViews) {
+    trackEvent('pageview', {
+      title: document.title,
+      url: window.location.href
+    });
+  }
+  
+  // Track clicks on important elements
+  if (config.trackClicks) {
+    document.addEventListener('click', function(e) {
+      var target = e.target;
+      
+      // Track button clicks (counted as actions)
+      if (target.tagName === 'BUTTON' || target.closest('button')) {
+        var button = target.tagName === 'BUTTON' ? target : target.closest('button');
+        trackEvent('click', {
+          element: 'button',
+          text: button.textContent.trim().substring(0, 100),
+          id: button.id || null,
+          class: button.className || null
+        });
+      }
+      
+      // Track link clicks (navigation - not counted as actions)
+      else if (target.tagName === 'A' || target.closest('a')) {
+        var link = target.tagName === 'A' ? target : target.closest('a');
+        trackEvent('navigation', {
+          element: 'link',
+          text: link.textContent.trim().substring(0, 100),
+          href: link.href,
+          external: link.hostname !== window.location.hostname
+        });
+      }
+    }, true);
+  }
+  
+  // Track form submissions
+  if (config.trackFormSubmissions) {
+    document.addEventListener('submit', function(e) {
+      var form = e.target;
+      
+      trackEvent('form_submit', {
+        form_id: form.id || null,
+        form_name: form.name || null,
+        form_action: form.action || null,
+        form_method: form.method || 'GET'
+      });
+    }, true);
+  }
+  
+  // Track time on page (send on page unload)
+  var pageLoadTime = Date.now();
+  
+  window.addEventListener('beforeunload', function() {
+    var timeOnPage = Math.floor((Date.now() - pageLoadTime) / 1000); // in seconds
+    
+    trackEvent('page_unload', {
+      time_on_page: timeOnPage,
+      page_path: window.location.pathname
+    });
+  });
+  
+  // Expose tracking function globally for custom events
+  window.zappyAnalytics = {
+    track: trackEvent,
+    getVisitorId: function() { return visitorId; },
+    getSessionId: function() { return sessionId; }
+  };
+  
+})();
+</script>
+<!-- End Zappy Analytics -->
+    <meta property="og:title" content="תוכנות AI מתקדמות לאוטומציה עסקית — Rubik AI">
+  <meta property="og:description" content="גלו את העוצמה של ai business software שמשנה את הדרך שבה עסקים פועלים. פתרונות אוטומציה חכמים שחוסכים זמן ומגדילים רווחיות. התחילו עכשיו!">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="he_IL">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="תוכנות AI מתקדמות לאוטומציה עסקית — Rubik AI">
+  <meta name="twitter:description" content="גלו את העוצמה של ai business software שמשנה את הדרך שבה עסקים פועלים. פתרונות אוטומציה חכמים שחוסכים זמן ומגדילים רווחיות. התחילו עכשיו!">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon-512x512.png">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    <!-- Cookie Consent -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css" />
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.umd.js"></script>
+    <!-- Mickidum Accessibility Toolbar -->
+    <script src="https://cdn.jsdelivr.net/gh/mickidum/acc_toolbar/acctoolbar/acctoolbar.min.js"></script>
+    <link rel="stylesheet" href="/styles.css">
+
+    <style id="zappy-dropdown-submenu-styles">
+      /* ========== DESKTOP DROPDOWN SUBMENU STYLES ========== */
+      /* Base styles for dropdown submenus - parent must be positioned */
+      .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { position: relative; }
+      /* Submenu base - hidden by default */
+      .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { display: block !important; position: absolute !important; top: 100%; left: 0; min-width: 220px; background: white; border-radius: 8px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); padding: 8px 0; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; z-index: 1000; list-style: none; pointer-events: none; }
+      /* CRITICAL: Desktop hover styles to show dropdown */
+      .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Submenu item styling */
+      .sub-menu li { list-style: none; margin: 0; padding: 0; }
+      .sub-menu a { display: block !important; padding: 10px 16px !important; color: #333 !important; font-weight: 500; text-decoration: none; white-space: nowrap; transition: background-color 0.2s; }
+      .sub-menu a:hover { background-color: #f5f5f5; }
+      /* RTL (Hebrew/Arabic) dropdown positioning */
+      [dir="rtl"] .nav-menu .sub-menu, [dir="rtl"] nav .sub-menu, [dir="rtl"] .navbar .sub-menu, html[lang="he"] .nav-menu .sub-menu, html[lang="he"] nav .sub-menu, html[lang="he"] .navbar .sub-menu, html[lang="ar"] .nav-menu .sub-menu, html[lang="ar"] nav .sub-menu, html[lang="ar"] .navbar .sub-menu { left: auto !important; right: 0 !important; }
+      /* Hide empty dropdown menus */
+      .sub-menu:empty, .sub-menu:not(:has(li:not(.zappy-hidden-menu-item))), .sub-menu:not(:has(li)) { display: none !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }
+      /* Desktop: show submenu on Menu Group hover */
+      li:has(.menu-group-title):hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Menu Group title styling */
+      .nav-menu > li > .menu-group-title, #navMenu > li > .menu-group-title { display: inline-block; padding: 0.5rem 1rem; cursor: default; user-select: none; }
+      
+      /* ========== MOBILE SUBMENU STYLES ========== */
+      @media (max-width: 768px) {
+        .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { position: static !important; transform: none !important; box-shadow: none !important; background: transparent !important; max-height: 0; overflow: hidden; opacity: 0; visibility: hidden; transition: max-height 0.3s ease, opacity 0.3s ease; padding: 0 !important; border-radius: 0 !important; }
+        .sub-menu.mobile-expanded { max-height: 500px !important; opacity: 1 !important; visibility: visible !important; padding: 8px 0 8px 16px !important; }
+        [dir="rtl"] .sub-menu.mobile-expanded, html[lang="he"] .sub-menu.mobile-expanded { padding: 8px 16px 8px 0 !important; }
+        /* Disable hover behavior on mobile */
+        .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 0; visibility: hidden; pointer-events: none; }
+        .nav-menu li > .sub-menu.mobile-expanded, nav li > .sub-menu.mobile-expanded, .navbar li > .sub-menu.mobile-expanded, #navMenu li > .sub-menu.mobile-expanded { opacity: 1 !important; visibility: visible !important; pointer-events: auto !important; }
+        .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { display: flex !important; flex-wrap: wrap !important; align-items: center !important; position: relative !important; min-height: 44px !important; }
+        .nav-menu li:has(.sub-menu) > a, nav li:has(.sub-menu) > a, .navbar li:has(.sub-menu) > a, #navMenu li:has(.sub-menu) > a { flex: 1 !important; min-width: 0 !important; }
+        .nav-menu li:has(.sub-menu) > .menu-group-title, nav li:has(.sub-menu) > .menu-group-title, .navbar li:has(.sub-menu) > .menu-group-title, #navMenu li:has(.sub-menu) > .menu-group-title { flex: 1 !important; min-width: 0 !important; padding: 0 !important; line-height: inherit !important; }
+        .nav-menu li:has(.sub-menu) > .sub-menu, nav li:has(.sub-menu) > .sub-menu, .navbar li:has(.sub-menu) > .sub-menu, #navMenu li:has(.sub-menu) > .sub-menu { flex-basis: 100% !important; width: 100% !important; }
+        .nav-menu li:has(.sub-menu) > a [class*="chevron"], .nav-menu li:has(.sub-menu) > a [class*="arrow"], .nav-menu li:has(.sub-menu) > a .fa-chevron-down, .nav-menu li:has(.sub-menu) > a .fa-angle-down, nav li:has(.sub-menu) > a [class*="chevron"], nav li:has(.sub-menu) > a [class*="arrow"], #navMenu li:has(.sub-menu) > a [class*="chevron"], #navMenu li:has(.sub-menu) > a [class*="arrow"] { display: none !important; visibility: hidden !important; }
+        .mobile-submenu-toggle { display: flex !important; align-items: center !important; justify-content: center !important; width: 44px !important; height: auto !important; background: transparent !important; border: none !important; cursor: pointer !important; color: var(--text-dark) !important; position: static !important; flex-shrink: 0 !important; align-self: stretch !important; z-index: 2 !important; padding: 0 !important; margin: 0 !important; }
+        .mobile-submenu-toggle::after { content: '' !important; width: 0 !important; height: 0 !important; border-left: 6px solid transparent !important; border-right: 6px solid transparent !important; border-top: 7px solid currentColor !important; transition: transform 0.3s ease !important; }
+        .mobile-submenu-toggle.expanded::after { transform: rotate(180deg) !important; }
+        .sub-menu a { padding: 10px 0 !important; display: block !important; color: var(--text-dark) !important; }
+        .navbar .sub-menu li a, nav.navbar .sub-menu li a, .zappy-products-dropdown .sub-menu a { color: var(--text-dark) !important; }
+      }
+      @media (min-width: 769px) { .mobile-submenu-toggle { display: none !important; } }
+    </style>
+
+    <style id="zappy-widget-visibility">
+      #mic-access-tool-general-button, .mic-access-tool-general-button,
+      #mic-init-access-tool .mic-access-tool-general-button, #mic-init-access-tool #mic-access-tool-general-button,
+      ._access-icon, #mic-access-tool-box, .mic-access-tool-box,
+      #mic-init-access-tool #mic-access-tool-box, div[id*="mic-access-tool-box"], ._access-menu {
+        display: none !important; visibility: hidden !important; opacity: 0 !important; pointer-events: none !important;
+      }
+    </style>
+</head>
+<body>
+
+  <nav class="navbar" dir="rtl">
+  <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
+    <svg class="hamburger-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+    </svg>
+    <svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" style="display:none;">
+      <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+    </svg>
+  </button>
+  
+  <button class="phone-header-btn" aria-label="Call">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+    </svg>
+  </button>
+  
+  <div class="nav-container">
+    <div class="nav-brand">
+      <a href="/" class="logo-link">
+        <img src="/assets/business-logo.webp" alt="Rubik AI" class="logo" />
+      </a>
+    </div>
+    
+    <ul class="nav-menu" id="navMenu"><li><a href="/solutions">פתרונות</a></li><li><a href="/case-studies">מקרי מבחן</a></li></ul>
+    
+    <div class="nav-cta-container">
+      <a href="/contact" class="nav-cta-btn">צור קשר</a>
+    </div>
+  </div>
+</nav>
+  
+  <main>
+    <section class="index-hero-section" data-layout-spec="בית-hero" data-hero-type="fullscreen-scrim">
+  <!-- Background Image -->
+  <img data-hero-bg="true" class="index-hero-section__bg-image" data-placeholder="index-hero-bg-constellation" data-context="Abstract AI neural network constellation on dark graphite background with volumetric cyan and magenta energy traces, glowing node connections, subtle signal particles drifting, futuristic artificial intelligence visualization, dark space with neon highlights, cinematic tech atmosphere, 4K quality" width="1920" height="1080" src="/assets/site-index-hero-bg-constellation.webp" alt="רקע קונסטלציה של בינה מלאכותית עם קווי אנרגיה זוהרים" data-preserve-bg="0">
+  
+  <!-- Scrim Overlay -->
+  <div class="index-hero-section__scrim" aria-hidden="true"></div>
+  
+  <!-- Content Overlay -->
+  <div class="index-hero-section__content-wrapper">
+    <div class="index-hero-section__content">
+      <h1 class="index-hero-section__headline">בינה מלאכותית שמספקת תוצאות מדידות</h1>
+      <h3 class="index-hero-section__subtitle">מהירות, אמינות ואינטגרציה מושלמת – Rubik AI מביאה AI לעסק שלך</h3>
+      <div class="index-hero-section__cta-row">
+        <a href="/contact" class="index-hero-section__btn index-hero-section__btn--primary">
+          <span>דברו עם Rubik AI</span>
+        </a>
+        <a href="/case-studies" class="index-hero-section__btn index-hero-section__btn--secondary">
+          <span>צפו בעבודות שלנו</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Bottom Divider: Cinematic Diagonal Slice -->
+  <div class="index-hero-section__divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Neon cyan edge line along the diagonal cut -->
+      <path d="M0,120 L0,80 L1200,20 L1200,120 Z" fill="var(--bg-light)"></path>
+      <path d="M0,80 L1200,20" stroke="var(--primary)" stroke-width="2" fill="var(--bg-light)" opacity="0.6"></path>
+    </svg>
+  </div>
+</section>
+
+<section class="index-capabilities-section" data-layout-spec="בית-capabilities">
+  <div class="index-capabilities-container">
+    <div class="index-capabilities-header">
+      <h2>יכולות שנבנו לפריסה אמיתית</h2>
+      <p>אנחנו מספקים פתרונות AI מקצה לקצה עם מדדי KPI ברורים. כל יכולה נבנתה להביא ערך מדיד ולהאיץ את המסע הדיגיטלי שלכם.</p>
+    </div>
+
+    <div class="index-capabilities-grid">
+      <article class="index-capabilities-card index-capabilities-card-signature">
+        <div class="index-capabilities-card-inner">
+          <div class="index-capabilities-accent-pip"></div>
+          <h3>אסטרטגיית AI ומפות דרכים</h3>
+          <p>אנחנו מתרגמים את חזון העסק שלכם לתוכנית פעולה מעשית עם אבני דרך ברורות. כל שלב מותאם לתשתיות הקיימות שלכם ומתוכנן להביא ROI מהיר.</p>
+          <p>הגישה שלנו מבטיחה שכל השקעה ב-AI תתורגם לערך עסקי מדיד תוך זמן קצר.</p>
+        </div>
+      </article>
+
+      <article class="index-capabilities-card">
+        <div class="index-capabilities-card-inner">
+          <div class="index-capabilities-accent-pip"></div>
+          <h3>אפליקציות LLM ועוזרים חכמים</h3>
+          <p>אנחנו בונים עוזרים דיגיטליים שמשתלבים בזרימת העבודה הקיימת ומשפרים את חוויית המשתמש.</p>
+          <p>הפתרונות שלנו מקצרים זמני תגובה ומשחררים צוותים לעבודה אסטרטגית יותר.</p>
+        </div>
+      </article>
+
+      <article class="index-capabilities-card">
+        <div class="index-capabilities-card-inner">
+          <div class="index-capabilities-accent-pip"></div>
+          <h3>מערכות RAG וידע ארגוני</h3>
+          <p>אנחנו הופכים את המידע הארגוני שלכם למנוע חיפוש חכם שמספק תשובות מדויקות בזמן אמת.</p>
+          <p>המערכות שלנו מבטיחות שכל עובד יכול לגשת לידע הרלוונטי בשניות, לא בשעות.</p>
+        </div>
+      </article>
+
+      <article class="index-capabilities-card">
+        <div class="index-capabilities-card-inner">
+          <div class="index-capabilities-accent-pip"></div>
+          <h3>אוטומציה וסוכנים אוטונומיים</h3>
+          <p>אנחנו מפתחים סוכנים שמבצעים משימות חוזרות באופן עצמאי ומשחררים את הצוות שלכם למשימות אסטרטגיות.</p>
+          <p>הפתרונות שלנו מפחיתים עומס תפעולי ומאיצים תהליכים עסקיים קריטיים.</p>
+        </div>
+      </article>
+
+      <article class="index-capabilities-card">
+        <div class="index-capabilities-card-inner">
+          <div class="index-capabilities-accent-pip"></div>
+          <h3>MLOps וניטור מתמיד</h3>
+          <p>אנחנו מבטיחים שמודלי ה-AI שלכם פועלים בצורה אמינה עם ניטור בזמן אמת וזיהוי מוקדם של בעיות.</p>
+          <p>המערכות שלנו מספקות שקט נפשי ואמינות לאורך זמן.</p>
+        </div>
+      </article>
+
+      <article class="index-capabilities-card">
+        <div class="index-capabilities-card-inner">
+          <div class="index-capabilities-accent-pip"></div>
+          <h3>אבטחה וממשל AI</h3>
+          <p>אנחנו בונים פתרונות עם אבטחה מובנית ועמידה בתקנות, כך שתוכלו לפרוס AI בביטחון מלא.</p>
+          <p>הגישה שלנו מבטיחה פלטים בטוחים ושקיפות מלאה בכל שלב.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <div class="index-capabilities-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="capabilities-divider-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#FF2DAA;stop-opacity:0.4"></stop>
+          <stop offset="50%" style="stop-color:#7C3CFF;stop-opacity:0.5"></stop>
+          <stop offset="100%" style="stop-color:#00C2FF;stop-opacity:0.4"></stop>
+        </linearGradient>
+        <linearGradient id="capabilities-fog-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" style="stop-color:#05070D;stop-opacity:1"></stop>
+          <stop offset="100%" style="stop-color:#05070D;stop-"></stop>
+        </linearGradient>
+      </defs>
+      <path d="M0,100 L0,0 L1200,0 L1200,100 Z" fill="var(--bg-light)"></path>
+      <rect x="0" y="88" width="1200" height="2" fill="url(#capabilities-divider-gradient)" opacity="0.6"></rect>
+    </svg>
+  </div>
+</section>
+
+<section class="index-process-section" data-layout-spec="בית-process">
+  <div class="index-process-container">
+    <div class="index-process-content">
+      <h2>מסלול ברור מרעיון לייצור</h2>
+      <p class="index-process-intro">אנחנו מאמינים בשקיפות מלאה ושיתוף פעולה הדוק. כל פרויקט עובר מסלול מובנה עם אבני דרך ברורות, כך שתדעו בדיוק היכן אתם נמצאים ומה הצעד הבא. מהגדרת הצרכים ועד למעקב שוטף בסביבת הייצור – אנחנו איתכם בכל שלב.</p>
+      
+      <div class="index-process-steps">
+        <div class="index-process-step">
+          <h3>גילוי</h3>
+          <p>אנחנו מתחילים עם הבנה עמוקה של הצרכים העסקיים שלכם והגדרת KPI ברורים. בשלב זה אנחנו מזהים את נקודות הכאב, בוחנים את הנתונים הקיימים ומגדירים יחד את מדדי ההצלחה. התוצר: מסמך אסטרטגי מפורט שמתווה את המסלול הטכנולוגי.</p>
+        </div>
+        
+        <div class="index-process-step">
+          <h3>אב טיפוס</h3>
+          <p>אנחנו בונים הוכחת ערך מהירה (POC) שמדגימה את הפוטנציאל של הפתרון. זה לא רק פיתוח טכני – זה גם אימות עסקי שמראה ROI ברור. אתם מקבלים דמו פעיל, תוצאות מדידות ומפת דרכים מפורטת להמשך.</p>
+        </div>
+        
+        <div class="index-process-step">
+          <h3>אינטגרציה</h3>
+          <p>אנחנו משלבים את המערכת בתשתיות הקיימות שלכם בצורה חלקה. זה כולל חיבור ל-API, מיגרציית נתונים, הדרכת צוותים ובניית תהליכי עבודה חדשים. התוצר: מערכת מלאה ומוכנה לפריסה, עם תוכנית אינטגרציה מפורטת ולוח זמנים ברור.</p>
+        </div>
+        
+        <div class="index-process-step">
+          <h3>תפעול</h3>
+          <p>לאחר ההשקה אנחנו ממשיכים לעקוב, למדוד ולשפר. אתם מקבלים מעקב שוטף אחר ביצועים, דוחות אנליטיים קבועים ואופטימיזציה מתמשכת של המודלים. אנחנו קובעים יחד קצב איטרציות (שבועי/חודשי) ומוודאים שהמערכת ממשיכה לספק ערך עסקי מדיד.</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="index-process-diagram">
+      <svg data-no-icon-edit="true" aria-hidden="true" class="index-process-signal-path" viewBox="0 0 320 560" xmlns="http://www.w3.org/2000/svg">
+        <!-- Node 1: Discover -->
+        <circle cx="160" cy="70" r="32" fill="rgba(11,16,32,0.65)" stroke="#00C2FF" stroke-width="2.5"></circle>
+        <circle cx="160" cy="70" r="12" fill="#00C2FF"></circle>
+        
+        <!-- Connector 1-2 -->
+        <path d="M160,102 L160,138" stroke="url(#gradientCyanPurple)" stroke-width="2" fill="none" stroke-dasharray="4 3"></path>
+        
+        <!-- Node 2: Prototype -->
+        <circle cx="160" cy="210" r="32" fill="rgba(11,16,32,0.65)" stroke="#7C3CFF" stroke-width="2.5"></circle>
+        <circle cx="160" cy="210" r="12" fill="#7C3CFF"></circle>
+        
+        <!-- Connector 2-3 -->
+        <path d="M160,242 L160,278" stroke="url(#gradientPurpleMagenta)" stroke-width="2" fill="none" stroke-dasharray="4 3"></path>
+        
+        <!-- Node 3: Integrate -->
+        <circle cx="160" cy="350" r="32" fill="rgba(11,16,32,0.65)" stroke="#FF2DAA" stroke-width="2.5"></circle>
+        <circle cx="160" cy="350" r="12" fill="#FF2DAA"></circle>
+        
+        <!-- Connector 3-4 -->
+        <path d="M160,382 L160,418" stroke="url(#gradientMagentaCyan)" stroke-width="2" fill="none" stroke-dasharray="4 3"></path>
+        
+        <!-- Node 4: Operate -->
+        <circle cx="160" cy="490" r="32" fill="rgba(11,16,32,0.65)" stroke="#00C2FF" stroke-width="2.5"></circle>
+        <circle cx="160" cy="490" r="12" fill="#00C2FF"></circle>
+        
+        <!-- Gradients -->
+        <defs>
+          <linearGradient id="gradientCyanPurple" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#00C2FF"></stop>
+            <stop offset="100%" stop-color="#7C3CFF"></stop>
+          </linearGradient>
+          <linearGradient id="gradientPurpleMagenta" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#7C3CFF"></stop>
+            <stop offset="100%" stop-color="#FF2DAA"></stop>
+          </linearGradient>
+          <linearGradient id="gradientMagentaCyan" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#FF2DAA"></stop>
+            <stop offset="100%" stop-color="#00C2FF"></stop>
+          </linearGradient>
+        </defs>
+      </svg>
+      
+      <!-- Decorative glass chips -->
+      <div class="index-process-glass-chip index-process-glass-chip-1"></div>
+      <div class="index-process-glass-chip index-process-glass-chip-2"></div>
+      <div class="index-process-glass-chip index-process-glass-chip-3"></div>
+    </div>
+  </div>
+  
+  <!-- Bottom wave divider -->
+  <div class="index-process-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,100 L0,30 Q150,38 300,32 T600,28 Q750,32 900,26 T1200,50 L1200,100 Z" fill="var(--bg-light)"></path>
+    </svg>
+  </div>
+</section>
+
+<section class="index-testimonials-section" data-layout-spec="בית-testimonials">
+  <div class="index-testimonials-section__container">
+    <div class="index-testimonials-section__header">
+      <h2>אמינות מוכחת בפריסת AI קריטית</h2>
+      <p>הלקוחות שלנו מסתמכים על Rubik AI כדי לספק תוצאות מדידות ואמינות בכל פעם. מהירות, דיוק ובטיחות – אלה הערכים שמניעים אותנו.</p>
+    </div>
+
+    <div class="index-testimonials-section__signal-pulse">
+      <div class="index-testimonials-section__pulse-line index-testimonials-section__pulse-line--1"></div>
+      <div class="index-testimonials-section__pulse-line index-testimonials-section__pulse-line--2"></div>
+      <div class="index-testimonials-section__pulse-line index-testimonials-section__pulse-line--3"></div>
+    </div>
+
+    <div class="index-testimonials-section__grid">
+      <div class="index-testimonials-section__card">
+        <p class="index-testimonials-section__quote">"הצלחנו לקצר את זמן הפריסה של מודלים חדשים ב-60%. המערכת של Rubik AI מספקת תוצאות מדויקות ומהירות שחסכו לנו חודשי עבודה."</p>
+        <p class="index-testimonials-section__attribution">מנהלת טכנולוגיה, חברת פינטק מובילה</p>
+      </div>
+
+      <div class="index-testimonials-section__card">
+        <p class="index-testimonials-section__quote">"איכות התגובות השתפרה באופן משמעותי, והעומס על צוות התמיכה שלנו ירד ב-40%. הלקוחות מקבלים מענה מדויק יותר ומהיר יותר."</p>
+        <p class="index-testimonials-section__attribution">סמנכ"ל שירות לקוחות, פלטפורמת SaaS גלובלית</p>
+      </div>
+
+      <div class="index-testimonials-section__card">
+        <p class="index-testimonials-section__quote">"האינטגרציה הייתה חלקה והבטיחות ברמה גבוהה. הצלחנו לשלב את Rubik AI במערכות הקיימות שלנו ללא תקלות, והתוצאות מדברות בעד עצמן."</p>
+        <p class="index-testimonials-section__attribution">ראש צוות הנדסה, סטארטאפ AI בשלבי צמיחה</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="index-testimonials-section__divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <filter id="lime-glow-notch" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="3"></feGaussianBlur>
+          <feComponentTransfer>
+            <feFuncA type="linear" slope="1.5"></feFuncA>
+          </feComponentTransfer>
+        </filter>
+      </defs>
+      <path d="M0,60 L0,0 L580,0 L600,20 L620,0 L1200,0 L1200,60 Z" fill="var(--bg-light)"></path>
+      <path d="M590,0 L600,15 L610,0" stroke="#B7FF3C" stroke-width="2" fill="var(--bg-light)" filter="url(#lime-glow-notch)" opacity="0.8"></path>
+    </svg>
+  </div>
+</section>
+
+<section class="index-cta-section" data-layout-spec="בית-cta">
+  <div class="index-cta-container">
+    <div class="index-cta-glow"></div>
+    <div class="index-cta-content">
+      <h2 class="index-cta-headline">מוכנים לפתח AI שעומד בייצור?</h2>
+      <p class="index-cta-description">בואו נקבע שיחה קצרה כדי למפות את הצעד המעשי הבא שלכם. נבנה פתרונות בינה מלאכותית שעובדים באמת.</p>
+      <div class="index-cta-buttons">
+        <a href="/contact" class="index-cta-btn-primary">צור קשר עם Rubik AI</a>
+        <a href="/case-studies" class="index-cta-btn-secondary">צפה במקרי בוחן</a>
+      </div>
+    </div>
+  </div>
+</section>
+  </main>
+  
+  <footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-top">
+      <div class="footer-column footer-about">
+        <img src="/assets/business-logo.webp" alt="Rubik AI" class="logo" />
+        <p class="footer-description">פתרונות בינוע מלאכותית מתקדמים לעסקים מודרניים</p>
+      </div>
+      
+      <div class="footer-column footer-links">
+        <h3 class="footer-heading">קישורים מהירים</h3>
+        <ul class="footer-nav">
+          <li><a href="/solutions">פתרונות</a></li>
+          <li><a href="/case-studies">מקרי מבחן</a></li>
+          <li><a href="/contact">צור קשר</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-column footer-contact">
+        <h3 class="footer-heading">יצירת קשר</h3>
+        <ul class="contact-list">
+          <li><i class="fas fa-envelope"></i> <a href="mailto:[business_email]">[business_email]</a></li>
+          <li><i class="fas fa-phone"></i> <a href="tel:[business_phone]">[business_phone]</a></li>
+          <li><a href="/"><i class="fas fa-map-marker-alt"></i> <span>[business_address]</span></a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-column footer-social">
+        <h3 class="footer-heading">עקבו אחרינו</h3>
+        <div class="social-links">
+          <a href="[facebook_handle]" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="[instagram_handle]" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="[whatsapp_handle]" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <div class="footer-bottom-content">
+        <div class="copyright">
+          <p>© 2026 Rubik AI. All rights reserved.</p>
+        </div>
+        <div class="footer-legal">
+          <a href="/privacy">Privacy Policy</a>
+          <span class="separator">|</span>
+          <a href="/terms">Terms &amp; Conditions</a>
+          <span class="separator">|</span>
+          <a href="/accessibility">Accessibility</a>
+          <span class="separator">|</span>
+          <a href="https://zappy5.com" target="_blank" class="zappy-attribution">Generated by Zappy</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+  
+  <a href="https://wa.me/[whatsapp_handle]" class="whatsapp-float" aria-label="WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+  
+  <div data-integration="accessibility:toolbar"></div>
+
+    <script src="/script.js"></script>
+
+    <script id="zappy-mobile-submenu-script">
+    (function() {
+      function initMobileSubmenuToggles() {
+        if (window.innerWidth > 768) {
+          document.querySelectorAll('.mobile-submenu-toggle').forEach(function(btn) { btn.remove(); });
+          document.querySelectorAll('.sub-menu.mobile-expanded').forEach(function(menu) { menu.classList.remove('mobile-expanded'); });
+          return;
+        }
+        var items = document.querySelectorAll('.nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu)');
+        items.forEach(function(li) {
+          if (li.querySelector('.mobile-submenu-toggle')) return;
+          var submenu = li.querySelector('.sub-menu');
+          var parentLink = li.querySelector(':scope > a');
+          if (!submenu || !parentLink) return;
+          var toggleBtn = document.createElement('button');
+          toggleBtn.className = 'mobile-submenu-toggle';
+          toggleBtn.setAttribute('aria-label', 'Toggle submenu');
+          toggleBtn.setAttribute('type', 'button');
+          parentLink.insertAdjacentElement('afterend', toggleBtn);
+          toggleBtn.addEventListener('click', function(e) {
+            e.preventDefault(); e.stopPropagation();
+            document.querySelectorAll('.sub-menu.mobile-expanded').forEach(function(menu) {
+              if (menu !== submenu) { menu.classList.remove('mobile-expanded'); var t = menu.parentElement.querySelector('.mobile-submenu-toggle'); if(t) t.classList.remove('expanded'); }
+            });
+            submenu.classList.toggle('mobile-expanded');
+            toggleBtn.classList.toggle('expanded');
+          });
+        });
+      }
+      if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initMobileSubmenuToggles); }
+      else { initMobileSubmenuToggles(); }
+      var resizeTimer; window.addEventListener('resize', function() { clearTimeout(resizeTimer); resizeTimer = setTimeout(initMobileSubmenuToggles, 250); });
+      // Re-initialize when mobile menu becomes visible (MutationObserver)
+      var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.type === 'attributes') {
+            var target = mutation.target;
+            if (target.classList && (target.classList.contains('active') || target.classList.contains('open'))) {
+              setTimeout(initMobileSubmenuToggles, 100);
+            }
+          }
+        });
+      });
+      setTimeout(function() {
+        document.querySelectorAll('.mobile-menu, .nav-menu, #navMenu, nav').forEach(function(menu) {
+          observer.observe(menu, { attributes: true, attributeFilter: ['class', 'style'] });
+        });
+      }, 500);
+    })();
+    </script>
+
+    <script id="zappy-navbar-scroll-effect">
+    (function(){var nb=document.querySelector('nav.navbar,.navbar:not(.zappy-catalog-menu)');var cm=document.querySelector('.zappy-catalog-menu');if(!nb)return;var fb='rgba(15,17,23,0.85)';var th=60;nb.style.transition='background 0.3s ease,backdrop-filter 0.3s ease,-webkit-backdrop-filter 0.3s ease,box-shadow 0.3s ease';if(cm)cm.style.transition='background 0.3s ease,backdrop-filter 0.3s ease,-webkit-backdrop-filter 0.3s ease';function onS(){var y=window.scrollY||window.pageYOffset;if(y>th){nb.style.background=fb;nb.style.backdropFilter='blur(12px)';nb.style.webkitBackdropFilter='blur(12px)';nb.style.boxShadow='0 2px 16px rgba(0,0,0,0.12)';if(cm){cm.style.background=fb;cm.style.backdropFilter='blur(12px)';cm.style.webkitBackdropFilter='blur(12px)';}}else{nb.style.background='transparent';nb.style.backdropFilter='none';nb.style.webkitBackdropFilter='none';nb.style.boxShadow='none';if(cm){cm.style.background='transparent';cm.style.backdropFilter='none';cm.style.webkitBackdropFilter='none';}}}window.addEventListener('scroll',onS,{passive:true});onS();})();
+    </script>
+</body>
+</html>
