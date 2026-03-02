@@ -234,6 +234,233 @@
     <script src="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.umd.js"></script>
     <!-- Mickidum Accessibility Toolbar -->
     <script src="https://cdn.jsdelivr.net/gh/mickidum/acc_toolbar/acctoolbar/acctoolbar.min.js"></script>
+
+<style data-zappy-section-v2-css="true">
+/* V2 Regenerated Section CSS */
+.index-process-section {
+  position: relative;
+  background-color: #05070D;
+  background-image: 
+    radial-gradient(circle at 18% 22%, rgba(244,247,255,0.10) 0 1px, rgba(0,0,0,0) 2px),
+    radial-gradient(circle at 72% 34%, rgba(244,247,255,0.08) 0 1px, rgba(0,0,0,0) 2px),
+    radial-gradient(circle at 44% 78%, rgba(244,247,255,0.06) 0 1px, rgba(0,0,0,0) 2px);
+  background-size: 280px 280px, 360px 360px, 420px 420px;
+  color: var(--text-light);
+  padding: 100px 16px;
+  overflow: visible;
+}
+
+.index-process-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.index-process-header {
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.index-process-header h2 {
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  color: rgba(244,247,255,0.96);
+  text-shadow: 0 6px 20px rgba(0,0,0,0.55);
+  margin-bottom: 24px;
+}
+
+.index-process-intro {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.75;
+  color: rgba(244,247,255,0.82);
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.index-process-timeline {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.index-process-step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+.index-process-step-badge {
+  width: 80px;
+  height: 80px;
+  background: rgba(11,16,32,0.55);
+  border-radius: 50%;
+  border: 1px solid rgba(244,247,255,0.18);
+  box-shadow: 0 18px 60px rgba(0,0,0,0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.index-process-step[data-step='1'] .index-process-step-badge {
+  background: rgba(11,16,32,0.55);
+  box-shadow: 0 18px 60px rgba(0,0,0,0.55), -18px 0 60px rgba(0,194,255,0.14);
+  color: #00C2FF;
+}
+
+.index-process-step[data-step='2'] .index-process-step-badge {
+  background: rgba(11,16,32,0.55);
+  box-shadow: 0 18px 60px rgba(0,0,0,0.55), 0 20px 70px rgba(124,60,255,0.14);
+  color: #7C3CFF;
+}
+
+.index-process-step[data-step='3'] .index-process-step-badge {
+  background: rgba(11,16,32,0.55);
+  box-shadow: 0 18px 60px rgba(0,0,0,0.55), 18px 0 60px rgba(255,45,170,0.14);
+}
+
+.index-process-step[data-step='4'] .index-process-step-badge {
+  background: rgba(11,16,32,0.55);
+  box-shadow: 0 18px 60px rgba(0,0,0,0.55), 0 0 44px rgba(0,194,255,0.18);
+}
+
+.index-process-step-badge svg {
+  display: block;
+}
+
+.index-process-step-number {
+  font-size: 24px;
+  font-weight: 800;
+  color: rgba(244,247,255,0.96);
+  background: linear-gradient(135deg, #00C2FF 0%, #FF2DAA 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.index-process-step-content {
+  padding-top: 8px;
+}
+
+.index-process-step-content h3 {
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.2;
+  color: rgba(244,247,255,0.94);
+  margin-bottom: 12px;
+}
+
+.index-process-step-content p {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.75;
+  color: rgba(244,247,255,0.78);
+  margin: 0;
+}
+
+.index-process-connector {
+  width: 2px;
+  height: 60px;
+  background: linear-gradient(180deg, rgba(0,194,255,0.4) 0%, rgba(124,60,255,0.3) 50%, rgba(255,45,170,0.2) 100%);
+  margin-right: 39px;
+  position: relative;
+  z-index: 1;
+}
+
+.index-process-glow-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.15;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.index-process-glow-orb-1 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, #00C2FF 0%, transparent 70%);
+  top: 10%;
+  right: -10%;
+}
+
+.index-process-glow-orb-2 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, #FF2DAA 0%, transparent 70%);
+  bottom: 5%;
+  left: -15%;
+}
+
+@media (max-width: 768px) {
+  .index-process-section {
+    padding: 100px 16px 60px;
+  }
+
+  .index-process-header {
+    margin-bottom: 50px;
+  }
+
+  .index-process-header h2 {
+    font-size: 28px;
+  }
+
+  .index-process-intro {
+    font-size: 14px;
+  }
+
+  .index-process-step {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .index-process-step-badge {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto;
+  }
+
+  .index-process-step-badge svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .index-process-step-number {
+    font-size: 20px;
+  }
+
+  .index-process-step-content {
+    text-align: center;
+    padding-top: 0;
+  }
+
+  .index-process-step-content h3 {
+    font-size: 20px;
+  }
+
+  .index-process-connector {
+    width: 2px;
+    height: 40px;
+    margin: 0 auto;
+  }
+
+  .index-process-glow-orb-1,
+  .index-process-glow-orb-2 {
+    width: 250px;
+    height: 250px;
+  }
+}
+</style>
     <link rel="stylesheet" href="/styles.css">
 
     <style id="zappy-dropdown-submenu-styles">
@@ -438,92 +665,70 @@
   </div>
 </section>
 
-<section class="index-process-section" data-layout-spec="בית-process">
+<section class="index-process-section" data-layout-spec="בית-process" data-zappy-section="true">
   <div class="index-process-container">
-    <div class="index-process-content">
+    <div class="index-process-header">
       <h2>מסלול ברור מרעיון לייצור</h2>
       <p class="index-process-intro">אנחנו מאמינים בשקיפות מלאה ושיתוף פעולה הדוק. כל פרויקט עובר מסלול מובנה עם אבני דרך ברורות, כך שתדעו בדיוק היכן אתם נמצאים ומה הצעד הבא. מהגדרת הצרכים ועד למעקב שוטף בסביבת הייצור – אנחנו איתכם בכל שלב.</p>
-      
-      <div class="index-process-steps">
-        <div class="index-process-step">
+    </div>
+
+    <div class="index-process-timeline">
+      <div class="index-process-step" data-step="1">
+        <div class="index-process-step-badge">
+          <svg data-element-type="icon" data-icon-type="svg" width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M21 21L16.65 16.65M19 11C19 15.4183 15.4183 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </div>
+        <div class="index-process-step-content">
           <h3>גילוי</h3>
           <p>אנחנו מתחילים עם הבנה עמוקה של הצרכים העסקיים שלכם והגדרת KPI ברורים. בשלב זה אנחנו מזהים את נקודות הכאב, בוחנים את הנתונים הקיימים ומגדירים יחד את מדדי ההצלחה. התוצר: מסמך אסטרטגי מפורט שמתווה את המסלול הטכנולוגי.</p>
         </div>
-        
-        <div class="index-process-step">
+      </div>
+
+      <div class="index-process-connector"></div>
+
+      <div class="index-process-step" data-step="2">
+        <div class="index-process-step-badge">
+          <svg data-element-type="icon" data-icon-type="svg" width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </div>
+        <div class="index-process-step-content">
           <h3>אב טיפוס</h3>
           <p>אנחנו בונים הוכחת ערך מהירה (POC) שמדגימה את הפוטנציאל של הפתרון. זה לא רק פיתוח טכני – זה גם אימות עסקי שמראה ROI ברור. אתם מקבלים דמו פעיל, תוצאות מדידות ומפת דרכים מפורטת להמשך.</p>
         </div>
-        
-        <div class="index-process-step">
+      </div>
+
+      <div class="index-process-connector"></div>
+
+      <div class="index-process-step" data-step="3">
+        <div class="index-process-step-badge">
+          <span class="index-process-step-number">03</span>
+        </div>
+        <div class="index-process-step-content">
           <h3>אינטגרציה</h3>
           <p>אנחנו משלבים את המערכת בתשתיות הקיימות שלכם בצורה חלקה. זה כולל חיבור ל-API, מיגרציית נתונים, הדרכת צוותים ובניית תהליכי עבודה חדשים. התוצר: מערכת מלאה ומוכנה לפריסה, עם תוכנית אינטגרציה מפורטת ולוח זמנים ברור.</p>
         </div>
-        
-        <div class="index-process-step">
+      </div>
+
+      <div class="index-process-connector"></div>
+
+      <div class="index-process-step" data-step="4">
+        <div class="index-process-step-badge">
+          <span class="index-process-step-number">04</span>
+        </div>
+        <div class="index-process-step-content">
           <h3>תפעול</h3>
           <p>לאחר ההשקה אנחנו ממשיכים לעקוב, למדוד ולשפר. אתם מקבלים מעקב שוטף אחר ביצועים, דוחות אנליטיים קבועים ואופטימיזציה מתמשכת של המודלים. אנחנו קובעים יחד קצב איטרציות (שבועי/חודשי) ומוודאים שהמערכת ממשיכה לספק ערך עסקי מדיד.</p>
         </div>
       </div>
     </div>
-    
-    <div class="index-process-diagram">
-      <svg aria-hidden="true" class="index-process-signal-path" viewBox="0 0 320 560" xmlns="http://www.w3.org/2000/svg">
-        <!-- Node 1: Discover -->
-        <circle cx="160" cy="70" r="32" fill="rgba(11,16,32,0.65)" stroke="#00C2FF" stroke-width="2.5"></circle>
-        <circle cx="160" cy="70" r="12" fill="#00C2FF"></circle>
-        
-        <!-- Connector 1-2 -->
-        <path d="M160,102 L160,138" stroke="url(#gradientCyanPurple)" stroke-width="2" fill="none" stroke-dasharray="4 3"></path>
-        
-        <!-- Node 2: Prototype -->
-        <circle cx="160" cy="210" r="32" fill="rgba(11,16,32,0.65)" stroke="#7C3CFF" stroke-width="2.5"></circle>
-        <circle cx="160" cy="210" r="12" fill="#7C3CFF"></circle>
-        
-        <!-- Connector 2-3 -->
-        <path d="M160,242 L160,278" stroke="url(#gradientPurpleMagenta)" stroke-width="2" fill="none" stroke-dasharray="4 3"></path>
-        
-        <!-- Node 3: Integrate -->
-        <circle cx="160" cy="350" r="32" fill="rgba(11,16,32,0.65)" stroke="#FF2DAA" stroke-width="2.5"></circle>
-        <circle cx="160" cy="350" r="12" fill="#FF2DAA"></circle>
-        
-        <!-- Connector 3-4 -->
-        <path d="M160,382 L160,418" stroke="url(#gradientMagentaCyan)" stroke-width="2" fill="none" stroke-dasharray="4 3"></path>
-        
-        <!-- Node 4: Operate -->
-        <circle cx="160" cy="490" r="32" fill="rgba(11,16,32,0.65)" stroke="#00C2FF" stroke-width="2.5"></circle>
-        <circle cx="160" cy="490" r="12" fill="#00C2FF"></circle>
-        
-        <!-- Gradients -->
-        <defs>
-          <linearGradient id="gradientCyanPurple" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stop-color="#00C2FF"></stop>
-            <stop offset="100%" stop-color="#7C3CFF"></stop>
-          </linearGradient>
-          <linearGradient id="gradientPurpleMagenta" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stop-color="#7C3CFF"></stop>
-            <stop offset="100%" stop-color="#FF2DAA"></stop>
-          </linearGradient>
-          <linearGradient id="gradientMagentaCyan" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stop-color="#FF2DAA"></stop>
-            <stop offset="100%" stop-color="#00C2FF"></stop>
-          </linearGradient>
-        </defs>
-      </svg>
-      
-      <!-- Decorative glass chips -->
-      <div class="index-process-glass-chip index-process-glass-chip-1"></div>
-      <div class="index-process-glass-chip index-process-glass-chip-2"></div>
-      <div class="index-process-glass-chip index-process-glass-chip-3"></div>
-    </div>
   </div>
-  
-  <!-- Bottom wave divider -->
-  <div class="index-process-divider-wrapper">
-    <svg aria-hidden="true" viewBox="0 0 1200 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0,100 L0,30 Q150,38 300,32 T600,28 Q750,32 900,26 T1200,50 L1200,100 Z" fill="var(--bg-dark)"></path>
-    </svg>
-  </div>
+
+  <div class="index-process-glow-orb index-process-glow-orb-1"></div>
+  <div class="index-process-glow-orb index-process-glow-orb-2"></div>
 </section>
 
 <section class="index-testimonials-section" data-layout-spec="בית-testimonials">
