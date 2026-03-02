@@ -1,61 +1,47 @@
-# Rubik AI — Generative Engine Optimization Map
-
-> אתר לעסק Rubik AI
+# Business — Generative Engine Optimization Map
 
 ---
 
 ## Pages
 
 ### בית
-https://rubik-ai-f9dd2059.zappy5.app
+https://example.com
 גלו את העוצמה של ai business software שמשנה את הדרך שבה עסקים פועלים. פתרונות אוטומציה חכמים שחוסכים זמן ומגדילים רווחיות. התחילו עכשיו!
 
 ### פתרונות
-https://rubik-ai-f9dd2059.zappy5.app/solutions
+https://example.com/solutions
 חקרו את מגוון ai business applications שלנו: אוטומציה חכמה, ניתוח נתונים מתקדם ותהליכים אופטימליים. פתרונות מותאמים לצרכים הייחודיים שלכם. גלו עוד!
 
 ### מקרי מבחן
-https://rubik-ai-f9dd2059.zappy5.app/case-studies
+https://example.com/case-studies
 קראו איך חברות מובילות הכפילו את היעילות שלהן עם ai for business wharton. מקרי מבחן אמיתיים, תוצאות מדידות והצלחות מוכחות. היעשו מעורר השראה!
 
 ### צור קשר
-https://rubik-ai-f9dd2059.zappy5.app/contact
+https://example.com/contact
 מוכנים לשדרג את העסק עם ai business automation? צרו קשר עם המומחים שלנו לייעוץ חינם ותכנון אסטרטגיה מותאמת אישית. הצעד הבא מתחיל כאן!
 
 ## Legal & Policy
 
 ### Privacy Policy
-https://rubik-ai-f9dd2059.zappy5.app/privacy
+https://example.com/privacy
 Information about how user data is collected, stored, and protected.
 
 ### Terms & Conditions
-https://rubik-ai-f9dd2059.zappy5.app/terms
+https://example.com/terms
 Legal terms describing service usage, rights, and policies.
 
 ### Accessibility Statement
-https://rubik-ai-f9dd2059.zappy5.app/accessibility
+https://example.com/accessibility
 Information about WCAG compliance and accessibility features.
 
 ---
 
 # Business Context (for LLM understanding)
 
-## About Rubik AI
-אתר לעסק Rubik AI
-
-## Target Audience
-- מנהלי טכנולוגיה בארגונים
-- מדעני נתונים
-- מייסדי סטארטאפ בתחום ה-AI
-- מנהלי חדשנות
-- חוקרים אקדמיים בתחום ה-AI
-
-## Industry
-Artificial Intelligence
-
+## About Business
 ---
 
 # Additional Resources
 
-- **Sitemap**: https://rubik-ai-f9dd2059.zappy5.app/sitemap.xml
-- **Robots.txt**: https://rubik-ai-f9dd2059.zappy5.app/robots.txt
+- **Sitemap**: https://example.com/sitemap.xml
+- **Robots.txt**: https://example.com/robots.txt
